@@ -4,7 +4,7 @@ import firebase from 'firebase';
 const AuthContext = React.createContext();
 
 export const AuthProvider = ({children}) => {
-  const [userContext, setUserContext] = useState({});
+  const [userContext, setUserContext] = useState();
 
   const loginContext = async (email, password) => {
     try {
