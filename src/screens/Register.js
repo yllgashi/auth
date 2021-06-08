@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import firebase from 'firebase';
 
@@ -6,15 +6,19 @@ import TouchableText from '../components/TouchableText';
 import AuthInput from '../components/AuthInput';
 import Constants from '../utils/Constants';
 import PrimaryButton from '../components/PrimaryButton';
+import AuthContext from '../context/AuthContext';
 
 const Register = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false); // for error message
 
+  // context
+  const {signupContext} = useContext(AuthContext);
+
   const register = async () => {
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      signupContext(email, password);
     } catch (error) {
       // show error message
       setError(true);

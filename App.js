@@ -31,6 +31,8 @@ const App = props => {
 
 export default () => {
   return (
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   );
 };

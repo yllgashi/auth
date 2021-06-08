@@ -13,12 +13,12 @@ const Login = props => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false); // for error message
 
-  // // context
-  // const authContext = useContext(AuthContext);
+  // context
+  const {loginContext, logoutContext} = useContext(AuthContext);
 
   const login = async () => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      loginContext(email, password);
     } catch (error) {
       // show error message
       setError(true);
