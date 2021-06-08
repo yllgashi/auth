@@ -1,17 +1,19 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 
-import firebase from 'firebase';
 import AuthContext from '../context/AuthContext';
 import Profile from '../components/Profile';
 
 const Home = props => {
   const {userContext, logoutContext} = useContext(AuthContext);
+  const [email, setEmail] = useState(null);
 
-  console.log(userContext);
-  const email = userContext ? userContext.email : null;
-  console.log(email);
+  // setEmail is executed only when userContext changes
+  useEffect(() => {
+    setEmail(userContext ? userContext.email : null);
+  }, [userContext]);
 
+  // view when user is not authenticated
   const authComponent = (
     <View style={styles.container}>
       <Button
@@ -25,13 +27,11 @@ const Home = props => {
     </View>
   );
 
+  // view when user is authenticated
   const logoutComponent = (
     <View style={styles.container}>
       <Profile email={email} />
-      <Button
-        title="Log out"
-        onPress={logoutContext}
-      />
+      <Button title="Log out" onPress={logoutContext} />
     </View>
   );
 
