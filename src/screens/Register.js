@@ -14,11 +14,11 @@ const Register = props => {
   const [error, setError] = useState(false); // for error message
 
   // context
-  const {signupContext} = useContext(AuthContext);
+  const {signupContext, userContext} = useContext(AuthContext);
 
   const register = async () => {
     try {
-      signupContext(email, password);
+      await signupContext(email, password);
     } catch (error) {
       // show error message
       setError(true);

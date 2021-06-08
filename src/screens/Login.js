@@ -14,11 +14,12 @@ const Login = props => {
   const [error, setError] = useState(false); // for error message
 
   // context
-  const {loginContext, logoutContext} = useContext(AuthContext);
+  const {loginContext, logoutContext, userContext} = useContext(AuthContext);
 
   const login = async () => {
     try {
-      loginContext(email, password);
+      // user is returned
+      await loginContext(email, password);
     } catch (error) {
       // show error message
       setError(true);

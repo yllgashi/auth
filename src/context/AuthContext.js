@@ -1,37 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 import firebase from 'firebase';
 
 const AuthContext = React.createContext();
 
 export const AuthProvider = ({children}) => {
+  const [userContext, setUserContext] = useState({});
 
   const loginContext = async (email, password) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      var userCredential = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      // initialize user
+      setUserContext(userCredential.user);
+      return userCredential.user;
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 
   const signupContext = async (email, password) => {
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      var userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // initialize user
+      setUserContext(userCredential.user);
+      return userCredential.user;
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 
   const logoutContext = async () => {
     try {
       firebase.auth().signOut();
+      setUserContext(null);
     } catch (error) {
-      return error;
+      throw error;
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{loginContext: loginContext, logoutContext: logoutContext, signupContext: signupContext}}>
+      value={{
+        userContext: userContext,
+        setUserContext: setUserContext,
+        loginContext: loginContext,
+        logoutContext: logoutContext,
+        signupContext: signupContext,
+      }}>
       {children}
     </AuthContext.Provider>
   );
