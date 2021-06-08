@@ -11,8 +11,9 @@ export const AuthProvider = ({children}) => {
       var userCredential = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
+
       // initialize user
-      setUserContext(userCredential.user);
+      setUserContext(firebase.auth().currentUser);
       return userCredential.user;
     } catch (error) {
       throw error;
@@ -26,7 +27,7 @@ export const AuthProvider = ({children}) => {
         .createUserWithEmailAndPassword(email, password);
 
       // initialize user
-      setUserContext(userCredential.user);
+      setUserContext(firebase.auth().currentUser);
       return userCredential.user;
     } catch (error) {
       throw error;
